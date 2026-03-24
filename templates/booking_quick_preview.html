@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Confirm Parsed Booking</h1>
+<form method="post" action="{{ url_for('booking_quick_confirm') }}" class="card form-grid">
+  <input type="hidden" name="resort_id" value="{{ resort_id }}">
+  <label>Guest Name<input name="guest_name" value="{{ parsed.guest_name }}" required></label>
+  <label>Contact<input name="contact" value="{{ parsed.contact }}"></label>
+  <label>Email<input name="email" value="{{ parsed.email }}"></label>
+  <label>Check-in<input type="date" name="checkin" value="{{ parsed.checkin }}"></label>
+  <label>Check-out<input type="date" name="checkout" value="{{ parsed.checkout }}"></label>
+  <label>Room Type<input name="room_type" value="{{ parsed.room_type }}"></label>
+  <label>Rooms<input type="number" name="rooms" min="1" value="{{ parsed.rooms }}"></label>
+  <label>Adults<input type="number" name="adults" min="0" value="{{ parsed.adults }}"></label>
+  <label>Children under 6<input type="number" name="child_under_6" min="0" value="{{ parsed.child_under_6 }}"></label>
+  <label>Children above 6<input type="number" name="child_above_6" min="0" value="{{ parsed.child_above_6 }}"></label>
+  <label>Net Rate<input type="number" step="0.01" name="net_rate" value="{{ parsed.net_rate }}"></label>
+  <label>Advance Paid<input type="number" step="0.01" name="advance_paid" value="{{ parsed.advance_paid }}"></label>
+  <label>Payment Mode<input name="payment_mode" value="{{ parsed.payment_mode }}"></label>
+  <label>Booking Source<input name="booking_source" value="{{ parsed.booking_source }}"></label>
+  <label>Meal Plan<input name="meal_plan" value="{{ parsed.meal_plan }}"></label>
+  <label>Status<input name="status" value="{{ parsed.status }}"></label>
+  <label class="full">Special Request<textarea name="special_request" rows="4">{{ parsed.special_request }}</textarea></label>
+  <button type="submit">Confirm &amp; Save</button>
+</form>
+<div class="card">
+  <h2>Original Raw Text</h2>
+  <pre>{{ raw_text }}</pre>
+</div>
+{% endblock %}

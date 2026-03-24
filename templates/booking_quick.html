@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Quick Chat Entry</h1>
+<div class="card">
+  <p>Paste raw staff-style booking text here. Example:</p>
+  <pre>Varun, 9999999, mail@gmail.com, c/in 4-mar-26, c/out 6-mar-26, pax-4 adults two kids ages 5 and 7, two rooms, payment total is 6000, advance paid 3000, UPI, DIRECT, early checkin requested by 10am, breakfast incld</pre>
+</div>
+<form method="post" class="card form-grid one-col">
+  <label>Resort
+    <select name="resort_id" required>
+      <option value="">Select resort</option>
+      {% for r in resorts %}
+      <option value="{{ r.id }}">{{ r.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Raw Booking Text<textarea name="raw_text" rows="8" required></textarea></label>
+  <button type="submit">Parse Booking</button>
+</form>
+{% endblock %}

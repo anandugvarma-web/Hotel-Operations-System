@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Dashboard</h1>
+<p><a href="/availability">Check Availability</a></p>
+
+<div class="cards">
+  <div class="card stat"><span>Resorts</span><strong>{{ resort_count }}</strong></div>
+  <div class="card stat"><span>Bookings</span><strong>{{ booking_count }}</strong></div>
+  <div class="card stat"><span>Total Revenue</span><strong>₹{{ '%.2f'|format(revenue) }}</strong></div>
+  <div class="card stat"><span>Pending Balance</span><strong>₹{{ '%.2f'|format(pending) }}</strong></div>
+</div>
+
+<div class="card">
+  <h2>Recent Bookings</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Resort</th><th>Guest</th><th>Check-in</th><th>Rate</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for row in recent_bookings %}
+      <tr>
+        <td>{{ row.booking_id }}</td>
+        <td>{{ row.resort_name }}</td>
+        <td>{{ row.guest_name }}</td>
+        <td>{{ row.checkin }}</td>
+        <td>₹{{ '%.2f'|format(row.net_rate or 0) }}</td>
+        <td>{{ row.status }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6">No bookings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

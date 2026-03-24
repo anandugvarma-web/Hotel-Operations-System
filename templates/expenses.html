@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Expenses</h1>
+<form method="post" class="card form-grid">
+  <label>Resort
+    <select name="resort_id">
+      <option value="">Select resort</option>
+      {% for r in resorts %}
+      <option value="{{ r.id }}">{{ r.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Category
+    <select name="category">
+      <option value="Food Cost">Food Cost</option>
+      <option value="Kitchen">Kitchen</option>
+      <option value="Amenities">Amenities</option>
+      <option value="Laundry">Laundry</option>
+      <option value="Salary">Salary</option>
+      <option value="Staff Welfare">Staff Welfare</option>
+      <option value="OTA">OTA</option>
+      <option value="Utilities">Utilities</option>
+      <option value="Maintenance">Maintenance</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Rent">Rent</option>
+      <option value="Depreciation">Depreciation</option>
+      <option value="F&B Revenue">F&B Revenue</option>
+      <option value="Other Income">Other Income</option>
+    </select>
+  </label>
+
+  <label>Amount
+    <input type="number" step="0.01" name="amount" required>
+  </label>
+
+  <label>Date
+    <input type="date" name="expense_date">
+  </label>
+
+  <label class="full">Notes
+    <textarea name="notes" rows="3"></textarea>
+  </label>
+
+  <button type="submit">Add Expense</button>
+</form>
+
+<div class="card">
+  <h2>Expense Entries</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Resort</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.resort_name or '-' }}</td>
+        <td>{{ row.category }}</td>
+        <td>₹{{ '%.2f'|format(row.amount or 0) }}</td>
+        <td>{{ row.expense_date or '-' }}</td>
+        <td>{{ row.notes or '-' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">No expenses added yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

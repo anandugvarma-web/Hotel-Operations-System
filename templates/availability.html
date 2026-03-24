@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Availability Calendar</h1>
+<div class="card">
+  <form method="get" class="form-grid">
+    <label>Resort
+      <select name="resort_id">
+        <option value="">Select</option>
+        {% for r in resorts %}
+        <option value="{{ r.id }}" {% if selected_resort == (r.id|string) %}selected{% endif %}>{{ r.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Month
+      <input type="month" name="month" value="{{ selected_month }}">
+    </label>
+    <button type="submit">Check</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Monthly Availability</h2>
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Booked</th><th>Available</th></tr>
+    </thead>
+    <tbody>
+      {% for day in availability %}
+      <tr>
+        <td>{{ day.date }}</td>
+        <td>{{ day.booked }}</td>
+        <td>{{ day.available }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3">No data to show.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

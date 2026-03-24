@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Edit Resort</h1>
+<div class="card">
+  <form method="post" class="form-grid">
+    <label>Resort Name<input name="name" value="{{ resort.name }}" required></label>
+    <label>Location<input name="location" value="{{ resort.location or '' }}"></label>
+    <label>Total Rooms<input type="number" name="total_rooms" min="0" value="{{ resort.total_rooms or 0 }}"></label>
+    <label>Phone<input name="phone" value="{{ resort.phone or '' }}"></label>
+    <label>Email<input name="email" value="{{ resort.email or '' }}"></label>
+    <label class="full">Notes<textarea name="notes" rows="4">{{ resort.notes or '' }}</textarea></label>
+    <button type="submit">Update Resort</button>
+  </form>
+</div>
+{% endblock %}

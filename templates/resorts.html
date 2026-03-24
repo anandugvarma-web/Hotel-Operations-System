@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Manage Resorts</h1>
+<div class="two-col">
+  <form method="post" class="card form-grid">
+    <h2>Add New Resort</h2>
+    <label>Resort Name<input name="name" required></label>
+    <label>Location<input name="location"></label>
+    <label>Total Rooms<input type="number" name="total_rooms" min="0" value="0"></label>
+    <label>Phone<input name="phone"></label>
+    <label>Email<input name="email"></label>
+    <label class="full">Notes<textarea name="notes" rows="4"></textarea></label>
+    <button type="submit">Save Resort</button>
+  </form>
+
+  <div class="card">
+    <h2>Saved Resorts</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Rooms</th>
+          <th>Phone</th>
+          <th>Action</th> <!-- ADDED -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in resorts %}
+        <tr>
+          <td>{{ r.name }}</td>
+          <td>{{ r.location }}</td>
+          <td>{{ r.total_rooms }}</td>
+          <td>{{ r.phone }}</td>
+          <td>
+            {% if session.get('role') == 'admin' %}
+            <a href="/resort/edit/{{ r.id }}">Edit</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">No resorts added yet.</td></tr> <!-- updated colspan -->
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

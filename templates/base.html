@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or 'Hotel Operations System' }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Hotel Operations System</h2>
+      {% if session.get('user_id') %}
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('booking_new') }}">Structured Entry</a>
+        <a href="{{ url_for('booking_quick') }}">Quick Chat Entry</a>
+        <a href="{{ url_for('search_bookings') }}">Search</a>
+        {% if session.get('role') == 'admin' %}
+          <a href="{{ url_for('pnl') }}">Monthly P&amp;L</a>
+          <a href="{{ url_for('resorts') }}">Manage Resorts</a>
+          <a href="{{ url_for('export_bookings') }}">Export Excel</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+      <div class="userbox">Logged in as <strong>{{ session.get('username') }}</strong><br><span>{{ session.get('role')|title }}</span></div>
+      {% endif %}
+    </aside>
+    <main class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

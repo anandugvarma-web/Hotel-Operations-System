@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Search Reservations</h1>
+<form method="get" class="card form-grid">
+  <label>Resort
+    <select name="resort_id">
+      <option value="">All resorts</option>
+      {% for r in resorts %}
+      <option value="{{ r.id }}" {% if request.args.get('resort_id') == (r.id|string) %}selected{% endif %}>{{ r.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Guest Name<input name="guest" value="{{ request.args.get('guest','') }}"></label>
+  <label>Contact<input name="contact" value="{{ request.args.get('contact','') }}"></label>
+  <label>Date From<input type="date" name="date_from" value="{{ request.args.get('date_from','') }}"></label>
+  <label>Date To<input type="date" name="date_to" value="{{ request.args.get('date_to','') }}"></label>
+  <button type="submit">Search</button>
+</form>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Resort</th>
+        <th>Guest</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Nights</th>
+        <th>Amount</th>
+        <th>Balance</th>
+        <th>Status</th>
+        <th>Action</th> <!-- ONLY ADDED -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.booking_id }}</td>
+        <td>{{ row.resort_name }}</td>
+        <td>{{ row.guest_name }}</td>
+        <td>{{ row.checkin }}</td>
+        <td>{{ row.checkout }}</td>
+        <td>{{ row.nights }}</td>
+        <td>₹{{ '%.2f'|format(row.net_rate or 0) }}</td>
+        <td>₹{{ '%.2f'|format(row.balance_due or 0) }}</td>
+        <td>{{ row.status }}</td>
+        <td>
+          <a href="/booking/edit/{{ row.id }}">Edit</a> <!-- ONLY ADDED -->
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="10">No bookings found.</td></tr> <!-- updated colspan -->
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

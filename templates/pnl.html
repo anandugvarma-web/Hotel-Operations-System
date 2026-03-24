@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Monthly P&L</h1>
+
+<form method="get" class="card form-grid">
+  <label>Resort
+    <select name="resort_id">
+      <option value="">All resorts</option>
+      {% for r in resorts %}
+      <option value="{{ r.id }}" {% if request.args.get('resort_id') == (r.id|string) %}selected{% endif %}>
+        {{ r.name }}
+      </option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Month
+    <input type="month" name="month" value="{{ month }}">
+  </label>
+
+  <button type="submit">Generate</button>
+</form>
+
+<div class="card">
+  <h2>Summary</h2>
+
+  <div class="cards">
+    <div class="card stat">
+      <span>Total Bookings</span>
+      <strong>{{ total_bookings }}</strong>
+    </div>
+
+    <div class="card stat">
+      <span>Total Revenue</span>
+      <strong>₹{{ '%.2f'|format(total_revenue) }}</strong>
+    </div>
+
+    <div class="card stat">
+      <span>Advance Received</span>
+      <strong>₹{{ '%.2f'|format(total_advance) }}</strong>
+    </div>
+
+    <div class="card stat">
+      <span>Pending Balance</span>
+      <strong>₹{{ '%.2f'|format(total_balance) }}</strong>
+    </div>
+
+    <div class="card stat">
+      <span>Total Nights</span>
+      <strong>{{ total_nights }}</strong>
+    </div>
+
+    <div class="card stat">
+      <span>Avg Booking Value</span>
+      <strong>₹{{ '%.2f'|format(avg_booking) }}</strong>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Bookings List</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Booking ID</th>
+        <th>Resort</th>
+        <th>Guest</th>
+        <th>Check-in</th>
+        <th>Nights</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.booking_id }}</td>
+        <td>{{ row.resort_name }}</td>
+        <td>{{ row.guest_name }}</td>
+        <td>{{ row.checkin }}</td>
+        <td>{{ row.nights }}</td>
+        <td>₹{{ '%.2f'|format(row.net_rate or 0) }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">No data found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 🔥 FIXED DOWNLOAD BUTTON -->
+<div class="card">
+  <h2>Export</h2>
+
+  <a href="/export/pnl.xlsx?resort_id={{ request.args.get('resort_id','') }}&month={{ month }}"
+     class="btn">
+     Download Monthly P&L
+  </a>
+</div>
+
+{% endblock %}
